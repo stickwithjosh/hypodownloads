@@ -3,7 +3,8 @@
 var http = require('http');
 var r = require('request');
 var mongojs = require('mongojs');
-var db = mongojs('podcast', ['downloads']);
+var mongoConnect = process.env.MONGOLAB_URI || process.env.MONGOHQ_URL || 'mongodb://localhost/podcast';
+var db = mongojs(mongoConnect, ['downloads']);
 
 http.createServer(function (req, res) {
     var urlz = req.url;
