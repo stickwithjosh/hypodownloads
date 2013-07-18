@@ -1,10 +1,16 @@
+// Set some variables
+//
+var mongoConnect = process.env.MONGOLAB_URI || process.env.MONGOHQ_URL || 'mongodb://localhost/podcast';
+var port = process.env.PORT || 1337;
+
 // Grab some requirenments
 
 var http = require('http');
 var r = require('request');
 var mongojs = require('mongojs');
-var mongoConnect = process.env.MONGOLAB_URI || process.env.MONGOHQ_URL || 'mongodb://localhost/podcast';
 var db = mongojs(mongoConnect, ['downloads']);
+
+// Startup our server
 
 http.createServer(function (req, res) {
     var urlz = req.url;
@@ -51,4 +57,6 @@ http.createServer(function (req, res) {
     }
 
    }
-}).listen(1337, '127.0.0.1');
+}).listen(port, function() {
+      console.log("Listening on " + port);
+});
