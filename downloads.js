@@ -2,6 +2,7 @@
 //
 var mongoConnect = process.env.MONGOLAB_URI || process.env.MONGOHQ_URL || 'mongodb://localhost/podcast';
 var port = process.env.PORT || 1337;
+var realurlz = 'http://m.hypotheticalpodcast.com/media/e';
 
 // Grab some requirenments
 
@@ -35,7 +36,7 @@ http.createServer(function (req, res) {
     if (urlz.toLowerCase().indexOf(".mp3") >= 0){
 
         // Build our link
-        var download_link = 'http://m.hypotheticalpodcast.com/media/e' + urlz;
+        var download_link = realurlz + urlz;
 
         // add to the dbizzle aka the database
         db.downloads.save({
@@ -48,7 +49,11 @@ http.createServer(function (req, res) {
                 }
         });
        // get the link, send it to the user
-        r.get(download_link).pipe(res);
+       // r.get(download_link).pipe(res);
+       res.writeHead(301,
+                 {Location: download_link}
+               );
+       res.end();
 
     }
     else {
